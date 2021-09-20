@@ -1,0 +1,179 @@
+﻿@model List<ShopBanHang.Context.Product>
+@{
+    ViewBag.Title = "ProductCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="section-content padding-y">
+    <div class="container">
+
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <ol class="breadcrumb float-left">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="#">Tên danh mục</a></li>
+                    <li class="breadcrumb-item active">Chi tiết</li>
+                </ol>
+            </div> 
+        </div>
+        <div class="row">
+            <aside class="col-md-2">
+
+                <article class="filter-group">
+                    <h6 class="title">
+                        <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3"> Phạm vi giá </a>
+                    </h6>
+                    <div class="filter-content collapse show" id="collapse_3">
+                        <div class="inner">
+                            <input type="range" class="custom-range" min="0" max="100" name="">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Min</label>
+                                    <input class="form-control" placeholder="7 triệu" type="number">
+                                </div>
+                                <div class="form-group text-right col-md-6">
+                                    <label>Max</label>
+                                    <input class="form-control" placeholder="100 triệu" type="number">
+                                </div>
+                            </div> 
+                            <button class="btn btn-block btn-primary">Áp dụng</button>
+                        </div> 
+                    </div>
+                </article> 
+                <article class="filter-group">
+                    <h6 class="title">
+                        <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_4"> Loại </a>
+                    </h6>
+                    <div class="filter-content collapse show" id="collapse_4">
+                        <div class="inner">
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-light"> Often  </span>
+                            </label>
+
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-light"> Pro max </span>
+                            </label>
+
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-light"> International  </span>
+                            </label>
+
+                            <label class="checkbox-btn">
+                                <input type="checkbox">
+                                <span class="btn btn-light"> Limit </span>
+                            </label>
+                        </div> 
+                    </div>
+                </article> 
+          </aside>     
+            <main class="col-md-10">
+
+
+                
+                @foreach (var item in Model.Where(n => n.BrandId == 1))
+                {
+                    <article class="card card-product-list">
+                        <div class="row no-gutters">
+                            <aside class="col-md-3">
+                                <a href="#" class="img-wrap">
+                                    <span class="badge badge-danger"> @item.Name </span>
+                                    <img src="~/Content/images/items/@item.Avartar">
+                                </a>
+                            </aside> 
+                            <div class="col-md-6">
+                                <div class="info-main">
+                                    <a href="#" class="h5 title"> @item.Name</a>
+                                    <div class="rating-wrap mb-2">
+                                        <ul class="rating-stars">
+                                            <li style="width:100%" class="stars-active">
+                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </li>
+                                        </ul>
+                                        <div class="label-rating">9/10</div>
+                                    </div> 
+
+                                    <p>
+                                       @item.ShortDes
+                                    </p>
+
+                                </div> 
+                            </div> 
+                            <aside class="col-sm-3">
+                                <div class="info-aside">
+                                    <div class="price-wrap">
+                                        <span class="h5 price">@item.Price VNĐ</span>
+                                       
+                                        <small class="text-warning">Giao hàng trả tiền</small>
+
+
+                                        <p class="mt-3">
+                                        <a href="https://www.facebook.com/pham.vanquang.96742/" class="btn btn-outline-primary"> <i class="fa fa-envelope"></i> Liên hệ với nhà cung cấp </a>
+                                        <a href="#" class="btn btn-light"><i class="fa fa-heart"></i> Yêu thích </a>
+                                        </p>
+
+                                        <label class="custom-control mt-3 custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input">
+                                        </label>
+                                    </div>
+                                </div> 
+                            </aside> 
+                        </div> 
+                    </article>
+                }
+
+
+                <nav class="mb-4" aria-label="Page navigation sample">
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Kế tiếp</a></li>
+                    </ul>
+                </nav>
+
+
+                
+
+            </main> 
+
+        </div>
+
+    </div> 
+</section>
+
+<section class="section-subscribe padding-y-lg">
+    <div class="container">
+
+        <p class="pb-2 text-center text-white">Cung cấp thông tin sản phẩm mới về cho bạn</p>
+
+        <div class="row justify-content-md-center">
+            <div class="col-lg-5 col-md-6">
+                <form class="form-row">
+                    <div class="col-md-8 col-7">
+                        <input class="form-control border-0" placeholder="Your Email" type="email">
+                    </div> 
+                    <div class="col-md-4 col-5">
+                        <button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Đăng ký  </button>
+                    </div> 
+                </form>
+            </div> 
+        </div>
+
+
+    </div>
+</section>
+

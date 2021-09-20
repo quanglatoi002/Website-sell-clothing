@@ -1,0 +1,31 @@
+﻿@using ShopBanHang.Context
+@using ShopBanHang.Controllers
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string key = Request.QueryString["key"];
+    List<Product> product = new List<Product>();
+}
+
+<h2>Search @key</h2>
+@{
+    if (string.IsNullOrEmpty(key))
+    {
+        <h3>Vui lòng nhập từ khóa</h3> }
+    else
+    {
+        if (key == null && key.Length < 2)
+        {
+            <h3>Vui lòng nhập từ khóa</h3>
+        }
+        else
+        {
+            product = new HomeController().SearchByKey(key);
+            foreach (var item in product)
+            {
+                <p>@item.Name</p>
+            }
+        }
+    }
+
+}

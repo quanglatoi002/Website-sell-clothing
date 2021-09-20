@@ -1,0 +1,151 @@
+﻿ @model IEnumerable<ShopBanHang.Models.CartModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#removecart").click(function () {
+            var model = {};
+            //lấy id sản phẩm
+            model.Id = $("#productid").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Remove", "Cart")',
+                data:  JSON.stringify(model) ,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    $('#CartCount').text(@Session["count"] - 1);
+                    $("#product-" + model.Id).remove();
+                },
+                error: function () {
+                    alert("Lỗi trong khi thêm vào giỏ hàng!");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card">
+
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col" width="120">Số lượng</th>
+                                <th scope="col" width="120">Giá</th>
+                                <th scope="col" class="text-right" width="200"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr id="product-@item.product.Id">
+                                        <td>
+                                            <figure class="itemside">
+                                                <div class="aside"><img src="~/Content/images/items/@item.product.Avartar" class="img-sm"></div>
+                                                <figcaption class="info">
+                                                    <a href="#" class="title text-dark">@item.product.Name</a>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <input type="text" value="@item.Quantity" />
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap">
+                                                <var class="price">@item.product.Price VNĐ</var>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <input type="hidden" value="@item.product.Id" id="productid" />
+                                            <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+
+                                            <a href="" class="btn btn-light" id="removecart"> Xóa</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                   
+                    
+                    <div class="card-body border-top">
+                        <a href="@Url.Action("Index","Payment")" class="btn btn-primary float-md-right"> Thanh toán  <i class="fa fa-chevron-right"></i> </a>
+                        <a href="@Url.Action("PaymentWithPaypal","Cart")" class="float-md-right">
+                            <img style="width:85px; margin-right:30px; margin-bottom:30px;" src="~/Content/images/items/paypal.png" />
+                        </a>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Tiếp tục mua hàng  </a>
+                    </div>
+                    
+                </div> 
+
+                <div class="alert alert-success mt-3">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Giao hàng miễn phí trong vòng 5 - 8 ngày </p>
+                </div>
+
+            </main> <!-- col.// -->
+            <aside class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Có phiếu giảm giá? </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="" placeholder="Ghi mã giảm giá">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary">Áp dụng</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                @if (item.product.Price >= 0)
+                                {
+
+                                    <dl class="">
+                                        <dt style="word-break:break-all">Tổng giá:@(item.product.Price*item.Quantity)VNĐ</dt>
+                                        <dd class="text-right"></dd>
+                                    </dl>
+                                    
+                                    <dl class="dlist-align">
+                                        <dt>Giảm giá: @item.product.Endow%</dt>
+                                        <dd class="text-right"></dd>
+                                    </dl>
+                                    <hr>
+                                    <dl class="">
+                                        <dt>Tổng tiền: @Model.Sum(x => x.product.Price * x.Quantity * ((100 - x.product.Endow)/100)).ToString()VNĐ</dt>
+                                        <dd class="text-right"></dd>
+                                    </dl>
+                                    <hr>
+                                    <p class="text-center mb-3">
+                                        <img src="~/Content/images/misc/payments.png" height="26">
+                                    </p>
+
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                </aside> 
+        </div>
+
+    </div> 
+</section>

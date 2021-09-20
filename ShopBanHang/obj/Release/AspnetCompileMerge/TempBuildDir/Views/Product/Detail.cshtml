@@ -1,0 +1,178 @@
+﻿@model ShopBanHang.Context.Product
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(function () {
+        $("#addtocart").click(function () {
+            var model = {};
+            //lấy id sản phẩm
+            model.Id = @Model.Id;
+            // lấy số lượng đặt hàng
+            model.Quantity = $("#ipQuantity").val();
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddToCart", "Cart")',
+                data:  JSON.stringify(model) ,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                    alert("Thêm giỏ hàng thành công!")
+                    $('#CartCount').text(@Session["count"] + 1);
+                },
+                error: function () {
+                    alert("Lỗi trong khi thêm vào giỏ hàng!");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="#">Chi tiết sản phẩm</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </div>
+</section>
+
+<section class="section-content bg-white padding-y">
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-6">
+                <div class="card">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            <div> <a href="#"><img src="~/Content/images/items/@Model.Avartar"></a></div>
+                        </div>
+                    
+                    </article> 
+                </div> 
+            </aside>
+            <main class="col-md-6">
+                <article class="product-info-aside">
+
+                    <h2 class="title mt-3">@Model.Name </h2>
+
+                    <div class="rating-wrap my-3">
+                        <ul class="rating-stars">
+                            <li style="width:80%" class="stars-active">
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </li>
+                            <li>
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </li>
+                        </ul>
+                        <small class="label-rating text-muted">132 đánh giá</small>
+                        <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 đặt mua</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <var class="price h4">@Model.Price VNĐ</var>
+                     
+                    </div> 
+
+                    <p>
+                        @Model.ShortDes
+                    </p>
+
+
+                    <dl class="row">
+
+                        <dt class="col-sm-3">Số bài viết về sản phẩm</dt>
+                        <dd class="col-sm-9">1.2 triệu bài</dd>
+
+                        <dt class="col-sm-3">Bảo hành</dt>
+                        @if (Model.Price >= 15000000 && Model.Price < 20000000)
+                        {
+                            <dd class="col-sm-9">1.5 năm</dd>
+                        }
+                        else if (Model.Price < 15000000)
+                        {
+                            <dd class="col-sm-9">1 năm</dd>
+                        }
+                        else
+                        {
+                            <dd class="col-sm-9">2 năm</dd>
+                        }
+
+                        <dt class="col-sm-3">Thời gian giao hàng</dt>
+                        @if (Model.Price >= 15000000)
+                        {
+                            <dd class="col-sm-9">3-4 Ngày</dd>
+                        }
+                        else if (Model.Price < 15000000)
+                        {
+                            <dd class="col-sm-9">5-6 Ngày</dd>
+                        }
+                        else
+                        {
+                            <dd class="col-sm-9">2-3 Ngày</dd>
+                        }
+
+                        <dt class="col-sm-3">Hiện tại</dt>
+                        @if (Model.Id == 0)
+                        {
+                            <dd class="col-sm-9">Hết hàng</dd>
+                        }
+                        else
+                        {
+                            <dd class="col-sm-9">Còn hàng</dd>
+                        }
+
+                    </dl>
+
+                    <div class="form-row  mt-4">
+                        <div class="form-group col-md flex-grow-0">
+                            <div class="input-group mb-3 input-spinner">
+                                <input type="text" id="ipQuantity" class="form-control" value="1">
+                            </div>
+                        </div> 
+                        <div class="form-group col-md">
+                            <a href="#" id="addtocart" class="btn  btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="text" h>Thêm vào giỏ hàng</span>
+                            </a>
+                        </div> 
+                    </div> 
+
+                </article> 
+            </main> 
+        </div> 
+        
+
+
+    </div>
+</section>
+
+
+<section class="section-subscribe padding-y-lg">
+    <div class="container">
+
+        <p class="pb-2 text-center text-white">Cung cấp thông tin sản phẩm mới về cho bạn</p>
+
+        <div class="row justify-content-md-center">
+            <div class="col-lg-5 col-md-6">
+                <form class="form-row">
+                    <div class="col-md-8 col-7">
+                        <input class="form-control border-0" placeholder="Your Email" type="email">
+                    </div>
+                    <div class="col-md-4 col-5">
+                        <button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Đăng ký  </button>
+                    </div> 
+                </form>
+            </div> 
+        </div>
+
+
+    </div>
+</section>
+

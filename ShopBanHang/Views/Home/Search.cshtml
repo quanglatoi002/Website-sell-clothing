@@ -1,0 +1,51 @@
+﻿@using ShopBanHang.Context
+@using ShopBanHang.Controllers
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string key = Request.QueryString["key"];
+    List<Product> product = new List<Product>();
+}
+
+<h2>Tìm kiếm @key</h2>
+@{
+    if (string.IsNullOrEmpty(key))
+    {
+        <h3>Vui lòng nhập từ khóa</h3> }
+    else
+    {
+        if (key == null && key.Length < 2)
+        {
+            <h3>Vui lòng nhập từ khóa</h3>
+        }
+        else
+        {
+            product = new HomeController().SearchByKey(key);
+
+<section class="padding-bottom-sm">
+
+    <header class="section-heading heading-line">
+        <h4 class="title-section text-uppercase">Sản phẩm sau khi search</h4>
+    </header>
+
+    <div class="row row-sm">
+        @foreach (var item in product)
+        {
+        <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+            <div href="#" class="card card-sm card-product-grid">
+                <a href="@Url.Action("Detail", "Product", new { Id = item.Id })" class="img-wrap">
+                    <img src="~/Content/images/items/@item.Avartar">
+                </a>
+                <figcaption class="info-wrap">
+                    <a href="@Url.Action("Detail", "Product", new { Id = item.Id })" class="title">@item.Name</a>
+                    <div class="price mt-1">@item.Price VNĐ</div>
+                </figcaption>
+            </div>
+        </div>
+        }
+    </div>
+</section>
+            }
+        }
+
+}

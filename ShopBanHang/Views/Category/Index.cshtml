@@ -1,0 +1,50 @@
+﻿@model List<ShopBanHang.Context.Category>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="section-content padding-y">
+    <div class="container">
+
+        <nav class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3" width ="150px">
+
+                    <div class="card card-category" width ="300px">
+                        <div class="img-wrap" style="background: #ffd7d7">
+                            <img style="width:300px; height:220px;" src="~/Content/images/items/@item.Avartar">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title"><a href="#">@item.Name</a></h4>
+                           
+                        </div>
+                    </div>
+                </div> 
+            }
+        </nav> 
+    </div>
+</section>
+<section class="section-subscribe padding-y-lg">
+    <div class="container">
+
+        <p class="pb-2 text-center text-white">Cung cấp thông tin sản phẩm mới về cho bạn</p>
+
+        <div class="row justify-content-md-center">
+            <div class="col-lg-5 col-md-6">
+                <form class="form-row">
+                    <div class="col-md-8 col-7">
+                        <input class="form-control border-0" placeholder="Your Email" type="email">
+                    </div> 
+                    <div class="col-md-4 col-5">
+                        <button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Đăng ký  </button>
+                    </div> <!
+                </form>
+            </div> <
+        </div>
+
+
+    </div>
+</section>
+

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ShopBanHang.Context.UserMasterData>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin-left: 100px">
+    <p>
+        @*<a href="@Url.Action("AddOrEdit")">Tạo mới</a>*@
+        <a href="@Url.Action("AddOrEdit")" class="btn btn-default"><i class="fa fa-plus"></i>Tạo mới</a>
+    </p>
+    <p>
+        <span>Tìm kiếm theo tên:</span><input type="text" name="search" placeholder="Tìm kiếm theo tên" />
+        <input type="submit" value="Search" name="submit" />
+    </p>
+    <table class="table table-striped">
+        <thead class="table-bordered" style="background-color:darkcyan">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Password)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsAdmin)
+                </th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+                <td>
+                    <a href="@Url.Action("AddOrEdit",new { id = item.Id })" class="btn btn-success"><i class="fa fa-pencil-alt"></i> Edit </a>
+                    <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger"><i class="fa fa-trash"></i> Delete </a>
+
+                    @* <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i> Delete </a>*@
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    @section scripts{
+        <script>
+        $(function (){
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage);
+        });
+        function Delete(id) {
+            alertify.successMessage('Web Api', 'Bạn có chắc chắn muốn xóa?', function () {
+                window/location.href = '@Url.Action("Delete","UserApi")/' + id;
+            }, null);
+        }
+        </script>
+    }
+</div>
